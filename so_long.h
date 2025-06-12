@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 19:53:10 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/11 14:54:54 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/12 16:10:09 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,14 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include "./mlx/mlx.h"
 
 # define TOTAL 1
 # define PARTIAL 0
+# define WALL '1'
+# define EMPTY '0'
+# define COLLECT 'C'
+# define M_EXIT 'E'
+# define PLAYER 'P'
 
 typedef struct s_list
 {
@@ -38,8 +42,9 @@ typedef struct s_map_data
 size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 t_list	*lst_push_back(t_map_data *map, char *line);
-void	clean_exit(char *error, t_map_data *map, int exit_code);
+void	clean_exit(t_map_data *map, char *error, int exit_code);
 char	*get_next_line(int fd);
+void	lst_clear(t_list **lst, int mode);
 
 
 #endif
