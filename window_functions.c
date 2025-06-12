@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long_main.c                                     :+:      :+:    :+:   */
+/*   window_functions.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/07 19:21:35 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/12 19:32:50 by ikulik           ###   ########.fr       */
+/*   Created: 2025/06/12 18:06:09 by ikulik            #+#    #+#             */
+/*   Updated: 2025/06/12 20:08:47 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	main(int argc, char **argv)
+int	close_window(int keycode, t_mlx_data *data)
 {
-	t_mlx_data	mlx_data;
-
-	if (argc == 2)
-		argv[1][0] = 'a';
-	mlx_data.mlx = mlx_init();
-	mlx_data.win = mlx_new_window(mlx_data.mlx, 1920, 1080, "Hello world!");
-	sleep(1);
-	mlx_hook(mlx_data.win, 2, 1L << 0, close_window, &mlx_data);
-	mlx_loop(mlx_data.mlx);
+	printf("keycode %d \n", keycode);
+	if (keycode == ' ')
+		printf("Hello there!\n");
+	if (keycode == 65307 || keycode == 33)
+	{
+		mlx_destroy_window(data->mlx, data->win);
+		free(data->mlx);
+		exit(0);
+	}
+	return (0);
 }
