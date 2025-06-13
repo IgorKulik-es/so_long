@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "so_long.h"
 
 void	*ft_lstadd_front(t_list_g **lst)
 {

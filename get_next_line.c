@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "so_long.h"
 
 static void	record_last(char *b_s, t_list_g **lst, t_gnl_ctrl *ctrl, size_t i)
 {

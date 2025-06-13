@@ -16,12 +16,18 @@ void	clean_exit(t_map_data *map, char *error, int exit_code)
 {
 	if (exit_code != 0)
 	{
-		write(2, "so_long: ", 9);
-		write(2, error, ft_strlen(error));
+		if (exit_code == EXIT_FAILURE)
+			write(2, "so_long: ", 9);
+		if (exit_code == MAP_ERROR)
+			write(2, "Error\n", 6);
+		if (error)
+			write(2, error, ft_strlen(error));
 		write(2, "\n", 1);
 	}
 	lst_clear(&(map->read_lst), TOTAL);
+	lst_clear(&(map->cols), PARTIAL);
 	array_clear(map->map, map->height);
+	array_clear(map->map_copy, map->height);
 	exit(exit_code);
 }
 
@@ -37,7 +43,7 @@ void	lst_clear(t_list **lst, int mode)
 	{
 		cleaner = iter;
 		iter = iter->next;
-		if (cleaner->line && mode == TOTAL)
+		if (mode == TOTAL && cleaner->line)
 			free(cleaner->line);
 		free(cleaner);
 	}

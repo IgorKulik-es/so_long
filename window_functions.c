@@ -12,7 +12,7 @@
 
 #include "so_long.h"
 
-int	close_window(int keycode, t_mlx_data *data)
+/*int	close_window(int keycode, t_mlx_data *data)
 {
 	printf("keycode %d \n", keycode);
 	if (keycode == ' ')
@@ -24,4 +24,4 @@ int	close_window(int keycode, t_mlx_data *data)
 		exit(0);
 	}
 	return (0);
-}
+}*/

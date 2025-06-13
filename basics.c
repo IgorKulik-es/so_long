@@ -22,6 +22,27 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	size_t	index;
+	size_t	length;
+
+	length = 0;
+	index = 0;
+	while (src[length])
+		length++;
+	if (size > 0)
+	{
+		while (src[index] && (index < size - 1))
+		{
+			dst[index] = src[index];
+			index++;
+		}
+		dst[index] = '\0';
+	}
+	return (length);
+}
+
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	int		diff;
@@ -45,18 +66,37 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (diff);
 }
 
-t_list	*lst_push_back(t_map_data *map, char *line)
+char	*ft_strdup(const char *s, size_t len, t_map_data *map)
+{
+	char	*result;
+	size_t	i;
+
+	i = 0;
+	result = (char *)malloc((len + 1) * sizeof(char));
+	if (result == NULL)
+		clean_exit(map, "malloc failure", EXIT_FAILURE);
+	while (i < len)
+	{
+		result[i] = (char)s[i];
+		i++;
+	}
+	result[len] = '\0';
+	return (result);
+}
+
+t_list	*lst_push_back(t_map_data *map, t_list **lst, char *line, t_pos *pos)
 {
 	t_list	*new;
 	t_list	*iter;
 
-	if (map->read_lst == NULL)
-		return (NULL);
-	iter = map->read_lst;
+	iter = *lst;
 	new = malloc(sizeof(t_list));
 	if (new == NULL)
 		clean_exit(map, "so_long: malloc: c function failure", 1);
-	new->line = line;
+	if (line)
+		new->line = line;
+	if (pos)
+		new->pos = *pos;
 	new->next = NULL;
 	if (iter != NULL)
 	{
@@ -68,7 +108,7 @@ t_list	*lst_push_back(t_map_data *map, char *line)
 	else
 	{
 		new->prev = NULL;
-		map->read_lst = new;
+		*lst = new;
 	}
-	return (map->read_lst);
+	return (*lst);
 }
