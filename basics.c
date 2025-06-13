@@ -6,15 +6,15 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 20:09:10 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/07 20:09:10 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/13 17:40:27 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
-	size_t	len;
+	int	len;
 
 	len = 0;
 	while (s[len])
@@ -66,12 +66,14 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (diff);
 }
 
-char	*ft_strdup(const char *s, size_t len, t_map_data *map)
+char	*ft_strdup(const char *s, t_map_data *map)
 {
 	char	*result;
 	size_t	i;
+	size_t	len;
 
 	i = 0;
+	len = ft_strlen(s);
 	result = (char *)malloc((len + 1) * sizeof(char));
 	if (result == NULL)
 		clean_exit(map, "malloc failure", EXIT_FAILURE);

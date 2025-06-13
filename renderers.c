@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   window_functions.c                                 :+:      :+:    :+:   */
+/*   renderers.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 18:06:09 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/13 20:21:46 by ikulik           ###   ########.fr       */
+/*   Created: 2025/06/13 19:48:19 by ikulik            #+#    #+#             */
+/*   Updated: 2025/06/13 20:24:09 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	close_window(int keycode, t_mlx_data *data)
+void	create_grid(t_map_data *map, t_mlx_data *mlx)
 {
-	printf("keycode %d \n", keycode);
-	if (keycode == ' ')
-		printf("Hello there!\n");
-	if (keycode == 65307 || keycode == 33)
+	t_pos	pos;
+
+	pos.y = 0;
+	while (pos.y < map->height)
 	{
-		mlx_destroy_window(data->mlx, data->win);
-		mlx_destroy_image(data->mlx, data->img);
-		mlx_destroy_image(data->mlx, data->img1);
-		mlx_destroy_display(data->mlx);
-		free(data->mlx);
-		exit(0);
+		pos.x = 0;
+		while (pos.x < map->width)
+		{
+			mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img1, pos.x * map->c_size, pos.y * map->c_size);
+			(pos.x)++;
+		}
+		(pos.y)++;
 	}
-	return (0);
 }

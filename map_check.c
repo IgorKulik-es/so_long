@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:20:50 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/13 10:20:50 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/13 17:43:13 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,15 @@ void	check_map_advanced(t_map_data *map)
 		while (++(pos.x) < map->width)
 		{
 			if (map->map[pos.y][pos.x] == PLAYER && map->player.x >= 0)
-					clean_exit(map, "More than one player!", MAP_ERROR);
+				clean_exit(map, "More than one player!", MAP_ERROR);
 			if (map->map[pos.y][pos.x] == PLAYER)
 				map->player = pos;
 			if (map->map[pos.y][pos.x] == DOOR && map->door.x >= 0)
-					clean_exit(map, "More than one exit!", MAP_ERROR);
+				clean_exit(map, "More than one exit!", MAP_ERROR);
 			if (map->map[pos.y][pos.x] == DOOR)
 				map->door = pos;
-			if ((pos.y == 0 || pos.y == map->height - 1 || pos.x == 0
-				|| pos.x == map->width - 1) && map->map[pos.y][pos.x] != WALL)
+			if ((pos.y == 0 || pos.y == map->height - 1 || pos.x == 0 || pos.x
+					== map->width - 1) && map->map[pos.y][pos.x] != WALL)
 				clean_exit(map, "Outer wall incomplete!", MAP_ERROR);
 		}
 	}
@@ -111,9 +111,9 @@ void	register_collectables(t_map_data *map)
 
 int	search_route(t_map_data *map, int x, int y)
 {
-	static int cols;
-	static int door;
-	int		result;
+	static int	cols;
+	static int	door;
+	int			result;
 
 	result = 0;
 	if (map->map_copy[y][x] == COLLECT)
@@ -130,6 +130,6 @@ int	search_route(t_map_data *map, int x, int y)
 	if (x < map->width - 1 && map->map_copy[y][x + 1] != WALL && result == 0)
 		result += search_route(map, x + 1, y);
 	if (x > 0 && map->map_copy[y][x - 1] != WALL && result == 0)
-		result += search_route(map, x - 1 , y);
+		result += search_route(map, x - 1, y);
 	return (result);
 }

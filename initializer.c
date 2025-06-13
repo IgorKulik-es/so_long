@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_args.c                                       :+:      :+:    :+:   */
+/*   initializer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 20:04:12 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/12 16:13:56 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/13 20:10:40 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	initialize_map(t_map_data *map)
 	map->height = 0;
 	map->width = 0;
 	map->num_cols = 0;
+	map->c_size = DF_CELL;
 }
 
 int	read_map(t_map_data *map, int argc, char **argv)
 {
 	int		fd;
-	int		index;
 	char	*next_line;
 
 	if (argc != 2)
