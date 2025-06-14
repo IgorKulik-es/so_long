@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 19:53:10 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/13 20:11:06 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/14 14:48:36 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
-//# include "./minilibx-linux/mlx.h"
+# include <math.h>
+# include "./minilibx-linux/mlx.h"
 
 # define TOTAL 1
 # define PARTIAL 0
@@ -28,7 +29,14 @@
 # define PLAYER 'P'
 # define WIN_WIDTH 1920
 # define WIN_HEIGHT 1080
-# define DF_CELL 300
+# define DF_CELL 200
+# define TOP_OFF 100
+# define SIDE_OFF 100
+# define C_GOLD 16761104
+# define C_GREEN 8439808
+# define C_VIOLET 9055202
+# define C_CRIMSON 14423100
+# define C_GREY 3100495
 
 typedef struct s_coordinates
 {
@@ -56,14 +64,19 @@ typedef struct s_map_data
 	t_list	*cols;
 	t_pos	player;
 	t_pos	door;
+	t_pos	offs;
 }			t_map_data;
 
 typedef struct s_mlx_data
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
-	void	*img1;
+	void		*mlx;
+	void		*win;
+	void		*wall;
+	void		*empty;
+	void		*coll;
+	void		*door;
+	void		*player;
+	t_map_data	map;
 }		t_mlx_data;
 
 int		ft_strlen(const char *s);
@@ -83,6 +96,7 @@ void	check_map_advanced(t_map_data *map);
 void	register_collectables(t_map_data *map);
 int		search_route(t_map_data *map, int x, int y);
 void	validate_map(t_map_data *map, int argc, char **argv);
-void	create_grid(t_map_data *map, t_mlx_data *mlx);
+void	create_grid(t_mlx_data *mlx);
+void	asign_basic_colors(t_mlx_data *data);
 
 #endif

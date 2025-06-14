@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 20:04:12 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/13 20:10:40 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/14 15:00:47 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	initialize_map(t_map_data *map)
 	map->width = 0;
 	map->num_cols = 0;
 	map->c_size = DF_CELL;
+	map->offs.x = SIDE_OFF;
+	map->offs.y = TOP_OFF;
 }
 
 int	read_map(t_map_data *map, int argc, char **argv)
@@ -56,12 +58,31 @@ int	read_map(t_map_data *map, int argc, char **argv)
 
 void	validate_map(t_map_data *map, int argc, char **argv)
 {
+	int	vert_fit;
+	int	hor_fit;
+
 	read_map(map, argc, argv);
 	check_map_basics(map);
 	check_map_advanced(map);
 	register_collectables(map);
 	if (search_route(map, map->player.x, map->player.y) == 0)
 		clean_exit(map, "No viable route found!", MAP_ERROR);
+	vert_fit = WIN_HEIGHT / map->height;
+	hor_fit = WIN_WIDTH / map->width;
+	if (hor_fit < vert_fit)
+	{
+		map->c_size = hor_fit;
+		map->offs.x = 0;
+		map->offs.y = WIN_HEIGHT / 2
+			- (int)(((double)(map->height) / (double)2) * (double)map->c_size);
+	}
+	else
+	{
+		map->c_size = hor_fit;
+		map->offs.y = 0;
+		map->offs.x = WIN_WIDTH / 2
+			- (int)(((double)(map->width) / (double)2) * (double)map->c_size);
+	}
 }
 
 

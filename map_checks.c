@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_check.c                                        :+:      :+:    :+:   */
+/*   map_checks.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:20:50 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/13 17:43:13 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/14 12:04:53 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	check_map_basics(t_map_data *map)
 			clean_exit(map, "Map dimensions incorrect!", MAP_ERROR);
 		iter = iter->next;
 	}
-	map->width = map->width - 2;
+	map->width = map->width - 1;
 	while (--index_height >= 0)
 	{
 		index_width = -1;
