@@ -4,8 +4,8 @@ BONUSNAME = so_long_bonus
 LIBRARY = minilibx-linux/libmlx_Linux.a
 BLIBRARY = lib_so_long_bonus.a
 
-SRCS = so_long_main.c window_functions.c map_checks.c get_next_line.c get_next_line_utils.c\
-cleaners.c basics.c initializer.c renderers.c
+SRCS = so_long_main.c gaming.c map_checks.c get_next_line.c get_next_line_utils.c\
+cleaners.c basics1.c basics2.c initializer.c renderers.c
 BONUSSRCS =
 
 

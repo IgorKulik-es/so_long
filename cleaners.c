@@ -6,11 +6,24 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 11:12:05 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/12 18:25:30 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:24:31 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+void	close_window(t_mlx_data *data)
+{
+	mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_image(data->mlx, data->door);
+	mlx_destroy_image(data->mlx, data->player);
+	mlx_destroy_image(data->mlx, data->wall);
+	mlx_destroy_image(data->mlx, data->empty);
+	mlx_destroy_image(data->mlx, data->coll);
+	mlx_destroy_display(data->mlx);
+	free(data->mlx);
+	clean_exit(&(data->map), "OK", 0);
+}
 
 void	clean_exit(t_map_data *map, char *error, int exit_code)
 {

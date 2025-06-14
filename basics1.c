@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   basics.c                                           :+:      :+:    :+:   */
+/*   basics1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 20:09:10 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/13 17:40:27 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:32:50 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_list	*lst_push_back(t_map_data *map, t_list **lst, char *line, t_pos *pos)
 	new->next = NULL;
 	if (iter != NULL)
 	{
-		while(iter->next != NULL)
+		while (iter->next != NULL)
 			iter = iter->next;
 		new->prev = iter;
 		iter->next = new;

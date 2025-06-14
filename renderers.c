@@ -6,13 +6,13 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:48:19 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/14 14:41:37 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/14 17:48:19 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	put_image_from_grid(t_mlx_data *data, int x, int y);
+
 
 void	create_grid(t_mlx_data *mlx)
 {
@@ -52,11 +52,6 @@ void	put_image_from_grid(t_mlx_data *data, int x, int y)
 	mlx_put_image_to_window(data->mlx, data->win, img, offset_left, offset_top);
 }
 
-/* unsigned int	convert_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-} */
-
 void	*make_square(int color, t_mlx_data *data)
 {
 	void			*img;
@@ -79,7 +74,35 @@ void	asign_basic_colors(t_mlx_data *data)
 {
 	data->wall = make_square(C_GREY, data);
 	data->door = make_square(C_CRIMSON, data);
-	data->empty = make_square(C_GREEN, data);
-	data->player = make_square(C_VIOLET, data);
-	data->coll = make_square(C_GOLD, data);
+	//data->empty = make_square(C_GREEN, data);
+	//data->player = make_square(C_VIOLET, data);
+	//data->coll = make_square(C_GOLD, data);
+}
+
+void	*stretch_to_fit(t_mlx_data *data, void *src)
+{
+	void			*img;
+	double			factor;
+	unsigned int	*pixels[2];
+	int				i;
+	int				j;
+
+	i = 0;
+	factor = (double)data->map.c_size / (double)DF_CELL;
+	img = mlx_new_image(data->mlx, data->map.c_size, data->map.c_size);
+	pixels[0] = (unsigned int *)mlx_get_data_addr(img, &i, &i, &i);
+	pixels[1] = (unsigned int *)mlx_get_data_addr(src, &i, &i, &i);
+	while (i < data->map.c_size)
+	{
+		j = 0;
+		while (j < data->map.c_size)
+		{
+			pixels[0][i * data->map.c_size + j] = pixels[1][((int)((double)i
+						/ factor)) * DF_CELL + (int)((double)j / factor)];
+			j++;
+		}
+		i++;
+	}
+	mlx_destroy_image(data->mlx, src);
+	return (img);
 }

@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 20:04:12 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/14 15:00:47 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:23:56 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	initialize_map(t_map_data *map)
 	map->height = 0;
 	map->width = 0;
 	map->num_cols = 0;
+	map->moves = 0;
 	map->c_size = DF_CELL;
 	map->offs.x = SIDE_OFF;
 	map->offs.y = TOP_OFF;

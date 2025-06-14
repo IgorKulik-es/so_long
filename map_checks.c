@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:20:50 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/14 12:04:53 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/14 16:15:17 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ void	register_collectables(t_map_data *map)
 		clean_exit(map, "malloc failure", EXIT_FAILURE);
 	while (--(pos.y) >= 0)
 		map->map_copy[pos.y] = ft_strdup(map->map[pos.y], map);
+	map->map[map->door.y][map->door.x] = EMPTY;
 }
 
 int	search_route(t_map_data *map, int x, int y)
