@@ -95,8 +95,7 @@ t_list	*lst_push_back(t_map_data *map, t_list **lst, char *line, t_pos *pos)
 	new = malloc(sizeof(t_list));
 	if (new == NULL)
 		clean_exit(map, "so_long: malloc: c function failure", 1);
-	if (line)
-		new->line = line;
+	new->line = line;
 	if (pos)
 		new->pos = *pos;
 	new->next = NULL;

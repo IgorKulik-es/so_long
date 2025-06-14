@@ -47,14 +47,14 @@ int	read_map(t_map_data *map, int argc, char **argv)
 	map->width = ft_strlen(next_line);
 	while (next_line != NULL)
 	{
-		map->height++;
+		(map->height)++;
 		next_line = get_next_line(fd);
 		lst_push_back(map, &(map->read_lst), next_line, NULL);
 	}
 	return (0);
 }
 
-int	validate_map(t_map_data *map, int argc, char **argv)
+void	validate_map(t_map_data *map, int argc, char **argv)
 {
 	read_map(map, argc, argv);
 	check_map_basics(map);
@@ -62,7 +62,6 @@ int	validate_map(t_map_data *map, int argc, char **argv)
 	register_collectables(map);
 	if (search_route(map, map->player.x, map->player.y) == 0)
 		clean_exit(map, "No viable route found!", MAP_ERROR);
-	return (0);
 }
 
 

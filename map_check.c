@@ -45,12 +45,14 @@ void	check_map_basics(t_map_data *map)
 			clean_exit(map, "Map dimensions incorrect!", MAP_ERROR);
 		iter = iter->next;
 	}
-	while (--index_height < map->height)
+	map->width = map->width - 2;
+	while (--index_height >= 0)
 	{
 		index_width = -1;
 		while (++index_width < map->width)
 			if (is_object(map->map[index_height][index_width]) == 0)
 				clean_exit(map, "Wrong character(s)!", MAP_ERROR);
+
 	}
 }
 
@@ -87,11 +89,11 @@ void	register_collectables(t_map_data *map)
 {
 	t_pos	pos;
 
-	pos.x = -1;
-	while (++(pos.x) < map->height)
+	pos.y = -1;
+	while (++(pos.y) < map->height)
 	{
-		pos.y = -1;
-		while (++(pos.y) < map->width)
+		pos.x = -1;
+		while (++(pos.x) < map->width)
 		{
 			if (map->map[pos.y][pos.x] == COLLECT)
 			{

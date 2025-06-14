@@ -26,7 +26,8 @@ void	clean_exit(t_map_data *map, char *error, int exit_code)
 	}
 	lst_clear(&(map->read_lst), TOTAL);
 	lst_clear(&(map->cols), PARTIAL);
-	array_clear(map->map, map->height);
+	if (map->map)
+		free(map->map);
 	array_clear(map->map_copy, map->height);
 	exit(exit_code);
 }
@@ -36,7 +37,7 @@ void	lst_clear(t_list **lst, int mode)
 	t_list	*iter;
 	t_list	*cleaner;
 
-	if (lst == NULL)
+	if (lst == NULL || *lst == NULL)
 		return ;
 	iter = *lst;
 	while (iter)
@@ -55,7 +56,7 @@ void	array_clear(char **arr, int size)
 	int	index;
 
 	index = 0;
-	if (arr == NULL)
+	if (arr == NULL || *arr == NULL)
 		return ;
 	while (index < size)
 	{

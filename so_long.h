@@ -16,7 +16,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include "./minilibx-linux/mlx.h"
+//# include "./minilibx-linux/mlx.h"
 
 # define TOTAL 1
 # define PARTIAL 0
@@ -82,6 +82,7 @@ void	check_map_basics(t_map_data *map);
 void	check_map_advanced(t_map_data *map);
 void	register_collectables(t_map_data *map);
 int		search_route(t_map_data *map, int x, int y);
+void	validate_map(t_map_data *map, int argc, char **argv);
 void	create_grid(t_map_data *map, t_mlx_data *mlx);
 
 #endif
