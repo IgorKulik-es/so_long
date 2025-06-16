@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:48:19 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/14 17:48:19 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/16 19:59:34 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	asign_basic_colors(t_mlx_data *data)
 	//data->coll = make_square(C_GOLD, data);
 }
 
-void	*stretch_to_fit(t_mlx_data *data, void *src)
+void	*stretch_to_fit(t_mlx_data *data, void *src, int height, int width)
 {
 	void			*img;
 	double			factor;
@@ -88,7 +88,7 @@ void	*stretch_to_fit(t_mlx_data *data, void *src)
 	int				j;
 
 	i = 0;
-	factor = (double)data->map.c_size / (double)DF_CELL;
+	factor = (double)data->map.c_size / (double)height;
 	img = mlx_new_image(data->mlx, data->map.c_size, data->map.c_size);
 	pixels[0] = (unsigned int *)mlx_get_data_addr(img, &i, &i, &i);
 	pixels[1] = (unsigned int *)mlx_get_data_addr(src, &i, &i, &i);
@@ -98,11 +98,11 @@ void	*stretch_to_fit(t_mlx_data *data, void *src)
 		while (j < data->map.c_size)
 		{
 			pixels[0][i * data->map.c_size + j] = pixels[1][((int)((double)i
-						/ factor)) * DF_CELL + (int)((double)j / factor)];
+						/ factor)) * width + (int)((double)j / factor)];
 			j++;
 		}
 		i++;
 	}
-	mlx_destroy_image(data->mlx, src);
+	//mlx_destroy_image(data->mlx, src);
 	return (img);
 }

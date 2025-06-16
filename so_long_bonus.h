@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   so_long_bonus.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 19:53:10 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/16 18:08:15 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/16 19:47:31 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#ifndef SO_LONG_BONUS_H
+# define SO_LONG_BONUS_H
+
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
@@ -43,6 +44,9 @@
 # define C_VIOLET 9055202
 # define C_CRIMSON 14423100
 # define C_GREY 3100495
+# define ANIM_FRAME_HEIGHT 84
+# define ANIM_STAND_WIDTH 672
+# define N_FRAMES_STAND 7
 
 typedef struct s_coordinates
 {
@@ -74,6 +78,15 @@ typedef struct s_map_data
 	t_pos	offs;
 }			t_map_data;
 
+typedef struct s_anim_imgs
+{
+	void	*standing[N_FRAMES_STAND + 1];
+	void	*walk_right;
+	void	*walk_left;
+	void	*death;
+	int		facing;
+}		t_anim;
+
 typedef struct s_mlx_data
 {
 	void		*mlx;
@@ -83,6 +96,7 @@ typedef struct s_mlx_data
 	void		*coll;
 	void		*door;
 	void		*player;
+	t_anim		anim;
 	t_map_data	map;
 }		t_mlx_data;
 
@@ -109,5 +123,10 @@ void	create_grid(t_mlx_data *mlx);
 void	asign_basic_colors(t_mlx_data *data);
 void	put_image_from_grid(t_mlx_data *data, int x, int y);
 void	*stretch_to_fit(t_mlx_data *data, void *src, int height, int width);
+void	create_anim_stand(t_mlx_data *data);
+void	clean_anim_stand(t_mlx_data *data);
+void	standing_still(t_mlx_data *data);
+void	initialize_data(t_mlx_data *data);
+
 
 #endif
