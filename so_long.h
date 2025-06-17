@@ -17,7 +17,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>
-# include "./minilibx-linux/mlx.h"
+//# include "./minilibx-linux/mlx.h"
 
 # define TOTAL 1
 # define PARTIAL 0
@@ -43,6 +43,11 @@
 # define C_VIOLET 9055202
 # define C_CRIMSON 14423100
 # define C_GREY 3100495
+# define ANIM_FRAME_HEIGHT 84
+# define ANIM_IDLE_WIDTH 672
+# define ANIM_WALK_WIDTH 672
+# define N_FRAMES_IDLE 7
+# define N_FRAMES_WALK 5
 
 typedef struct s_coordinates
 {
@@ -73,6 +78,15 @@ typedef struct s_map_data
 	t_pos	door;
 	t_pos	offs;
 }			t_map_data;
+typedef struct s_anim_imgs
+{
+	void	*idle_left[N_FRAMES_IDLE + 1];
+	void	*idle_right[N_FRAMES_IDLE + 1];
+	void	*walk_left[N_FRAMES_WALK + 1];
+	void	*walk_right[N_FRAMES_WALK + 1];
+	void	*death;
+	int		facing;
+}		t_anim;
 
 typedef struct s_mlx_data
 {
@@ -83,6 +97,7 @@ typedef struct s_mlx_data
 	void		*coll;
 	void		*door;
 	void		*player;
+	t_anim		anim;
 	t_map_data	map;
 }		t_mlx_data;
 
@@ -99,6 +114,7 @@ int		key_manager(int key, t_mlx_data *data);
 void	close_window(t_mlx_data *data);
 void	array_clear(char **arr, int size);
 void	initialize_map(t_map_data *map);
+void	add_images(t_mlx_data *data);
 int		read_map(t_map_data *map, int argc, char **argv);
 void	check_map_basics(t_map_data *map);
 void	check_map_advanced(t_map_data *map);
@@ -107,7 +123,8 @@ int		search_route(t_map_data *map, int x, int y);
 void	validate_map(t_map_data *map, int argc, char **argv);
 void	create_grid(t_mlx_data *mlx);
 void	asign_basic_colors(t_mlx_data *data);
-void	put_image_from_grid(t_mlx_data *data, int x, int y);
-void	*stretch_to_fit(t_mlx_data *data, void *src, int height, int width);
+void	put_image_to_grid(t_mlx_data *data, void *img, int x, int y);
+void	*stretch_to_fit(t_mlx_data *data, void *src, int width, int start);
+void	create_frames(t_mlx_data *data);
 
 #endif

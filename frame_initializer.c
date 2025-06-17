@@ -10,30 +10,42 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long_bonus.h"
+#include "so_long.h"
 
-void	create_anim_stand(t_mlx_data *data)
+void	create_frames(t_mlx_data *data)
 {
 	int		frame;
 
-	frame = 0;
-	while (frame < N_FRAMES_STAND)
-	{
-		data->anim.standing[frame] = stretch_to_fit(data,
-				data->anim.standing[N_FRAMES_STAND], ANIM_FRAME_HEIGHT,
-				ANIM_STAND_WIDTH);
-		frame++;
-	}
+	frame = -1;
+	while (++frame < N_FRAMES_IDLE)
+		data->anim.idle_left[frame] = stretch_to_fit(data, data->
+			anim.idle_left[N_FRAMES_IDLE], ANIM_IDLE_WIDTH, DF_CELL * frame);
+	while (--frame >= 0)
+		data->anim.idle_right[frame] = stretch_to_fit(data, data->
+			anim.idle_right[N_FRAMES_IDLE], ANIM_IDLE_WIDTH, DF_CELL * frame);
+	while (++frame < N_FRAMES_WALK)
+		data->anim.walk_left[frame] = stretch_to_fit(data, data->
+			anim.walk_left[N_FRAMES_WALK], ANIM_WALK_WIDTH, DF_CELL * frame);
+	while (--frame >= 0)
+		data->anim.walk_right[frame] = stretch_to_fit(data, data->
+			anim.walk_right[N_FRAMES_WALK], ANIM_WALK_WIDTH, DF_CELL * frame);
+	mlx_destroy_image(data->mlx, data->anim.idle_left[N_FRAMES_IDLE]);
+	mlx_destroy_image(data->mlx, data->anim.idle_right[N_FRAMES_IDLE]);
+	mlx_destroy_image(data->mlx, data->anim.walk_left[N_FRAMES_WALK]);
+	mlx_destroy_image(data->mlx, data->anim.walk_right[N_FRAMES_WALK]);
 }
 
 void	clean_anim_stand(t_mlx_data *data)
 {
 	int	frame;
 
-	frame = 0;
-	while (frame <= N_FRAMES_STAND)
-	{
-		if (data->anim.standing[frame])
-			mlx_destroy_image(data->mlx, data->anim.standing[frame]);
-	}
+	frame = -1;
+	while (++frame < N_FRAMES_IDLE)
+		mlx_destroy_image(data->mlx, data->anim.idle_left[frame]);
+	while (--frame >= 0)
+		mlx_destroy_image(data->mlx, data->anim.idle_right[frame]);
+	while (++frame < N_FRAMES_WALK)
+		mlx_destroy_image(data->mlx, data->anim.walk_left[frame]);
+	while (--frame >= 0)
+		mlx_destroy_image(data->mlx, data->anim.walk_right[frame]);
 }

@@ -7,7 +7,7 @@ BLIBRARY = lib_so_long_bonus.a
 SRCS = so_long_main.c gaming.c map_checks.c get_next_line.c get_next_line_utils.c\
 cleaners.c basics1.c basics2.c initializer.c renderers.c
 BONUSSRCS = so_long_main_bonus.c gaming.c map_checks.c get_next_line.c get_next_line_utils.c\
-cleaners_bonus.c basics1.c basics2.c initializer_bonus.c renderers.c frame_initializer.c\
+cleaners_bonus.c basics1.c basics2.c initializer.c renderers.c frame_initializer.c\
 animation.c
 
 

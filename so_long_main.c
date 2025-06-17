@@ -34,17 +34,9 @@ int	main(int argc, char **argv)
 
 	initialize_map(&(data.map));
 	validate_map(&(data.map), argc, argv);
-	if (argc)
-		argv[0][0] = argv[0][0];
 	data.mlx = mlx_init();
-	data.win = mlx_new_window(data.mlx, WIN_WIDTH, WIN_HEIGHT, "Hello world!");
-	asign_basic_colors(&data);
-	data.player = mlx_xpm_file_to_image(data.mlx, "./img/Jarjar.xpm", &dummy, &dummy);
-	data.coll = mlx_xpm_file_to_image(data.mlx, "./img/Booma.xpm", &dummy, &dummy);
-	data.empty = mlx_xpm_file_to_image(data.mlx, "./img/Grass.xpm", &dummy, &dummy);
-	data.coll = stretch_to_fit(&data, data.coll, DF_CELL, DF_CELL);
-	data.player = stretch_to_fit(&data, data.player, DF_CELL, DF_CELL);
-	data.empty = stretch_to_fit(&data, data.empty, DF_CELL, DF_CELL);
+	data.win = mlx_new_window(data.mlx, WIN_WIDTH, WIN_HEIGHT, "So Long");
+	add_images(&data);
 	create_grid(&(data));
 	mlx_hook(data.win, 2, 1L << 0, key_manager, &data);
 	mlx_loop(data.mlx);

@@ -86,5 +86,24 @@ void	validate_map(t_map_data *map, int argc, char **argv)
 	}
 }
 
+void	add_images(t_mlx_data *data)
+{
+	void	*img;
+	int		dummy;
 
-
+	img = mlx_xpm_file_to_image(data->mlx, "./img/Player.xpm", &dummy, &dummy);
+	data->player = stretch_to_fit(data, img, DF_CELL, DF_CELL);
+	mlx_destroy_image(data->mlx, img);
+	img = mlx_xpm_file_to_image(data->mlx, "./img/Wall.xpm", &dummy, &dummy);
+	data->wall = stretch_to_fit(data, img, DF_CELL, DF_CELL);
+	mlx_destroy_image(data->mlx, img);
+	img = mlx_xpm_file_to_image(data->mlx, "./img/Empty.xpm", &dummy, &dummy);
+	data->empty = stretch_to_fit(data, img, DF_CELL, DF_CELL);
+	mlx_destroy_image(data->mlx, img);
+	img = mlx_xpm_file_to_image(data->mlx, "./img/Coll.xpm", &dummy, &dummy);
+	data->coll = stretch_to_fit(data, img, DF_CELL, DF_CELL);
+	mlx_destroy_image(data->mlx, img);
+	img = mlx_xpm_file_to_image(data->mlx, "./img/Door.xpm", &dummy, &dummy);
+	data->door = stretch_to_fit(data, img, DF_CELL, DF_CELL);
+	mlx_destroy_image(data->mlx, img);
+}

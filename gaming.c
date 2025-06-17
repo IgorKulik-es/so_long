@@ -12,20 +12,20 @@
 
 #include "so_long.h"
 
-void	move_player(int key, t_mlx_data *data);
+void	move_player_simple(int key, t_mlx_data *data);
 int		end_game(t_mlx_data *data);
 void	count_moves(t_mlx_data *data);
 
 int	key_manager(int key, t_mlx_data *data)
 {
 	if (key == UP || key == DOWN || key == LEFT || key == RIGHT)
-		move_player(key, data);
+		move_player_simple(key, data);
 	if (key == ESC || key == ESC_ASCII)
 		close_window(data);
 	return (0);
 }
 
-void	move_player(int key, t_mlx_data *data)
+void	move_player_simple(int key, t_mlx_data *data)
 {
 	t_pos	new;
 	t_pos	old;
@@ -44,8 +44,8 @@ void	move_player(int key, t_mlx_data *data)
 			end_game(data);
 		data->map.map[new.y][new.x] = PLAYER;
 		data->map.map[old.y][old.x] = EMPTY;
-		put_image_from_grid(data, new.x, new.y);
-		put_image_from_grid(data, old.x, old.y);
+		put_image_to_grid(data, data->player, new.x, new.y);
+		put_image_to_grid(data, data->empty, old.x, old.y);
 	}
 }
 
