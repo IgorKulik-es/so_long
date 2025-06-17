@@ -34,12 +34,12 @@ int	main(int argc, char **argv)
 	initialize_map(&(data.map));
 	validate_map(&(data.map), argc, argv);
 	data.mlx = mlx_init();
-	data.win = mlx_new_window(data.mlx, WIN_WIDTH, WIN_HEIGHT, "Hello world!");
+	data.win = mlx_new_window(data.mlx, WIN_WIDTH, WIN_HEIGHT, "So Long");
 	add_images(&data);
 	load_anim_src(&data);
 	create_frames(&data);
 	create_grid(&(data));
 	mlx_hook(data.win, 2, 1L << 0, key_manager, &data);
-	mlx_loop_hook(data.mlx, idle2, &data);
+	mlx_loop_hook(data.mlx, idle_player, &data);
 	mlx_loop(data.mlx);
 }

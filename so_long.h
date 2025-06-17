@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <sys/time.h>
-# include "./minilibx-linux/mlx.h"
+//# include "./minilibx-linux/mlx.h"
 
 # define TOTAL 1
 # define PARTIAL 0
@@ -28,6 +28,7 @@
 # define COLLECT 'C'
 # define DOOR 'E'
 # define PLAYER 'P'
+# define ENEMY 'S'
 # define UP 'w'
 # define DOWN 's'
 # define LEFT 'a'
@@ -49,7 +50,8 @@
 # define AN_WALK_W 304
 # define AN_DELAY 130000
 # define FR_IDLE 7
-# define FR_WALK 5
+# define FR_WALK 8
+# define EN_DENSITY 10
 
 typedef struct s_coordinates
 {
@@ -70,6 +72,7 @@ typedef struct s_map_data
 	int		width;
 	int		height;
 	int		num_cols;
+	int		num_empty;
 	int		c_size;
 	int		moves;
 	char	**map;
@@ -87,6 +90,7 @@ typedef struct s_anim_imgs
 	void	*walk_left[FR_WALK + 1];
 	void	*walk_right[FR_WALK + 1];
 	void	*death;
+	int		moves;
 	int		facing;
 }		t_anim;
 
@@ -100,6 +104,7 @@ typedef struct s_mlx_data
 	void		*door;
 	void		*player;
 	t_anim		anim;
+	t_anim		enem;
 	t_map_data	map;
 }		t_mlx_data;
 
@@ -131,6 +136,6 @@ void	*stretch_anim(t_mlx_data *data, void *src, int width, int start);
 void	clean_anim_stand(t_mlx_data *data);
 void	load_anim_src(t_mlx_data *data);
 void	create_frames(t_mlx_data *data);
-int		idle2(t_mlx_data *data);
+int		idle_player(t_mlx_data *data);
 
 #endif

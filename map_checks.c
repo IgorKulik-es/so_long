@@ -100,6 +100,8 @@ void	register_collectables(t_map_data *map)
 				lst_push_back(map, &(map->cols), NULL, &pos);
 				(map->num_cols)++;
 			}
+			if (map->map[pos.y][pos.x] == EMPTY)
+				map->num_empty++;
 		}
 	}
 	if (map->num_cols == 0)
