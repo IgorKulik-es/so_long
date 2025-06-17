@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 20:04:12 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/14 16:23:56 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/17 17:51:41 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	validate_map(t_map_data *map, int argc, char **argv)
 	}
 	else
 	{
-		map->c_size = hor_fit;
+		map->c_size = vert_fit;
 		map->offs.y = 0;
 		map->offs.x = WIN_WIDTH / 2
 			- (int)(((double)(map->width) / (double)2) * (double)map->c_size);
@@ -92,18 +92,13 @@ void	add_images(t_mlx_data *data)
 	int		dummy;
 
 	img = mlx_xpm_file_to_image(data->mlx, "./img/Player.xpm", &dummy, &dummy);
-	data->player = stretch_to_fit(data, img, DF_CELL, DF_CELL);
-	mlx_destroy_image(data->mlx, img);
+	data->player = stretch_to_fit(data, img, DF_CELL, 0);
 	img = mlx_xpm_file_to_image(data->mlx, "./img/Wall.xpm", &dummy, &dummy);
-	data->wall = stretch_to_fit(data, img, DF_CELL, DF_CELL);
-	mlx_destroy_image(data->mlx, img);
+	data->wall = stretch_to_fit(data, img, DF_CELL, 0);
 	img = mlx_xpm_file_to_image(data->mlx, "./img/Empty.xpm", &dummy, &dummy);
-	data->empty = stretch_to_fit(data, img, DF_CELL, DF_CELL);
-	mlx_destroy_image(data->mlx, img);
+	data->empty = stretch_to_fit(data, img, DF_CELL, 0);
 	img = mlx_xpm_file_to_image(data->mlx, "./img/Coll.xpm", &dummy, &dummy);
-	data->coll = stretch_to_fit(data, img, DF_CELL, DF_CELL);
-	mlx_destroy_image(data->mlx, img);
+	data->coll = stretch_to_fit(data, img, DF_CELL, 0);
 	img = mlx_xpm_file_to_image(data->mlx, "./img/Door.xpm", &dummy, &dummy);
-	data->door = stretch_to_fit(data, img, DF_CELL, DF_CELL);
-	mlx_destroy_image(data->mlx, img);
+	data->door = stretch_to_fit(data, img, DF_CELL, 0);
 }

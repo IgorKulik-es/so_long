@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   window_functions.c                                 :+:      :+:    :+:   */
+/*   gaming.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:06:09 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/14 16:34:00 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/17 20:08:06 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ void	move_player_simple(int key, t_mlx_data *data)
 		data->map.map[old.y][old.x] = EMPTY;
 		put_image_to_grid(data, data->player, new.x, new.y);
 		put_image_to_grid(data, data->empty, old.x, old.y);
+		if (new.x < old.x)
+			data->anim.facing = 0;
+		else
+			data->anim.facing = 1;
 	}
 }
 
@@ -59,7 +63,7 @@ int	end_game(t_mlx_data *data)
 	else if (data->map.map[door.y][door.x] != DOOR)
 	{
 		data->map.map[door.y][door.x] = DOOR;
-		put_image_from_grid(data, door.x, door.y);
+		put_image_to_grid(data, data->door, door.x, door.y);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 19:21:35 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/16 19:02:08 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/17 17:19:33 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	print_map(char **arr, int height)
 int	main(int argc, char **argv)
 {
 	t_mlx_data	data;
-	int			dummy;
 
 	initialize_map(&(data.map));
 	validate_map(&(data.map), argc, argv);

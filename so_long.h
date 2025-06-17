@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 19:53:10 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/16 18:08:15 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/17 20:03:06 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>
-//# include "./minilibx-linux/mlx.h"
+# include <sys/time.h>
+# include "./minilibx-linux/mlx.h"
 
 # define TOTAL 1
 # define PARTIAL 0
@@ -35,7 +36,7 @@
 # define ESC_ASCII 33
 # define WIN_WIDTH 2560
 # define WIN_HEIGHT 1440
-# define DF_CELL 300
+# define DF_CELL 32
 # define TOP_OFF 100
 # define SIDE_OFF 100
 # define C_GOLD 16761104
@@ -43,11 +44,12 @@
 # define C_VIOLET 9055202
 # define C_CRIMSON 14423100
 # define C_GREY 3100495
-# define ANIM_FRAME_HEIGHT 84
-# define ANIM_IDLE_WIDTH 672
-# define ANIM_WALK_WIDTH 672
-# define N_FRAMES_IDLE 7
-# define N_FRAMES_WALK 5
+# define AN_HEIGHT 38
+# define AN_IDLE_W 266
+# define AN_WALK_W 304
+# define AN_DELAY 130000
+# define FR_IDLE 7
+# define FR_WALK 5
 
 typedef struct s_coordinates
 {
@@ -80,10 +82,10 @@ typedef struct s_map_data
 }			t_map_data;
 typedef struct s_anim_imgs
 {
-	void	*idle_left[N_FRAMES_IDLE + 1];
-	void	*idle_right[N_FRAMES_IDLE + 1];
-	void	*walk_left[N_FRAMES_WALK + 1];
-	void	*walk_right[N_FRAMES_WALK + 1];
+	void	*idle_left[FR_IDLE + 1];
+	void	*idle_right[FR_IDLE + 1];
+	void	*walk_left[FR_WALK + 1];
+	void	*walk_right[FR_WALK + 1];
 	void	*death;
 	int		facing;
 }		t_anim;
@@ -125,6 +127,10 @@ void	create_grid(t_mlx_data *mlx);
 void	asign_basic_colors(t_mlx_data *data);
 void	put_image_to_grid(t_mlx_data *data, void *img, int x, int y);
 void	*stretch_to_fit(t_mlx_data *data, void *src, int width, int start);
+void	*stretch_anim(t_mlx_data *data, void *src, int width, int start);
+void	clean_anim_stand(t_mlx_data *data);
+void	load_anim_src(t_mlx_data *data);
 void	create_frames(t_mlx_data *data);
+int		idle2(t_mlx_data *data);
 
 #endif
