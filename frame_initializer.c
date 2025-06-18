@@ -6,34 +6,54 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 17:51:30 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/17 20:06:09 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:43:13 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
+void	set_frames(t_mlx_data *data, void **anims, int num_frames, int mode);
+
 void	create_frames(t_mlx_data *data)
 {
-	int		frame;
 
-	frame = -1;
 	data->anim.facing = 1;
-	while (++frame < FR_IDLE)
-		data->anim.idle_left[FR_IDLE - 1 - frame] = stretch_anim(data, data
-				->anim.idle_left[FR_IDLE], AN_IDLE_W, AN_HEIGHT * frame);
-	mlx_destroy_image(data->mlx, data->anim.idle_left[FR_IDLE]);
-	while (--frame >= 0)
-		data->anim.idle_right[frame] = stretch_anim(data, data
-				->anim.idle_right[FR_IDLE], AN_IDLE_W, AN_HEIGHT * frame);
-	mlx_destroy_image(data->mlx, data->anim.idle_right[FR_IDLE]);
-	while (++frame < FR_WALK)
-		data->anim.walk_left[FR_WALK - 1 - frame] = stretch_anim(data, data
-				->anim.walk_left[FR_WALK], AN_WALK_W, AN_WALK_W * frame);
-	mlx_destroy_image(data->mlx, data->anim.walk_left[FR_WALK]);
-	while (--frame >= 0)
-		data->anim.walk_right[frame] = stretch_anim(data, data
-				->anim.walk_right[FR_WALK], AN_WALK_W, AN_WALK_W * frame);
-	mlx_destroy_image(data->mlx, data->anim.walk_right[FR_WALK]);
+	data->anim.idl_frame = 0;
+	data->enemies = NULL;
+	data->anim.pos = data->map.player;
+	data->anim.time = 0;
+	set_frames(data, data->anim.idle_left, FR_IDLE, REVERSE);
+	set_frames(data, data->anim.idle_right, FR_IDLE, FORWARD);
+	set_frames(data, data->anim.walk_left, FR_WALK, REVERSE);
+	set_frames(data, data->anim.walk_right, FR_WALK, FORWARD);
+	set_frames(data, data->enem_base.idle_left, EN_IDLE, REVERSE);
+	set_frames(data, data->enem_base.idle_right, EN_IDLE, FORWARD);
+	set_frames(data, data->enem_base.walk_left, EN_WALK, REVERSE);
+	set_frames(data, data->enem_base.walk_right, EN_WALK, FORWARD);
+
+}
+
+void	set_frames(t_mlx_data *data, void **anims, int num_frames, int mode)
+{
+	int	frame_curr;
+	int	width;
+
+	width = num_frames * AN_HEIGHT;
+	frame_curr = 0;
+	while (frame_curr < num_frames)
+	{
+		if (mode == FORWARD)
+			anims[frame_curr] = stretch_anim(data, anims[num_frames], width,
+					AN_HEIGHT * frame_curr);
+		else if (mode == REVERSE)
+			anims[num_frames - 1 - frame_curr] = stretch_anim(data,
+					anims[num_frames], width, AN_HEIGHT * frame_curr);
+		else if (mode == CLEAN)
+			mlx_destroy_image(data->mlx, anims[frame_curr]);
+		frame_curr++;
+	}
+	if (mode != CLEAN)
+		mlx_destroy_image(data->mlx, anims[num_frames]);
 }
 
 void	load_anim_src(t_mlx_data *data)
@@ -48,20 +68,40 @@ void	load_anim_src(t_mlx_data *data)
 			"./img/Walk_left.xpm", &dummy, &dummy);
 	data->anim.walk_right[FR_WALK] = mlx_xpm_file_to_image(data->mlx,
 			"./img/Walk_right.xpm", &dummy, &dummy);
+	data->enem_base.idle_right[EN_IDLE] = mlx_xpm_file_to_image(data->mlx,
+			"./img/Gob_idle_right.xpm", &dummy, &dummy);
+	data->enem_base.idle_left[EN_IDLE] = mlx_xpm_file_to_image(data->mlx,
+			"./img/Gob_idle_left.xpm", &dummy, &dummy);
+	data->enem_base.walk_right[EN_WALK] = mlx_xpm_file_to_image(data->mlx,
+			"./img/Gob_walk_right.xpm", &dummy, &dummy);
+	data->enem_base.walk_left[EN_WALK] = mlx_xpm_file_to_image(data->mlx,
+			"./img/Gob_walk_left.xpm", &dummy, &dummy);
+/*	data->enem.act_right[EN_ACT] = mlx_xpm_file_to_image(data->mlx,
+			"./img/Gob_act_right.xpm", &dummy, &dummy);
+	data->enem.act_left[EN_ACT] = mlx_xpm_file_to_image(data->mlx,
+			"./img/Gob_act_right.xpm", &dummy, &dummy); */
 }
 
 
-void	clean_anim_stand(t_mlx_data *data)
+void	clean_anims(t_mlx_data *data)
 {
 	int	frame;
 
 	frame = -1;
-	while (++frame < FR_IDLE)
+	set_frames(data, data->anim.idle_left, FR_IDLE, CLEAN);
+	set_frames(data, data->anim.idle_right, FR_IDLE, CLEAN);
+	set_frames(data, data->anim.walk_left, FR_WALK, CLEAN);
+	set_frames(data, data->anim.walk_right, FR_WALK, CLEAN);
+	set_frames(data, data->enem_base.idle_left, EN_IDLE, CLEAN);
+	set_frames(data, data->enem_base.idle_right, EN_IDLE, CLEAN);
+	set_frames(data, data->enem_base.walk_left, EN_WALK, CLEAN);
+	set_frames(data, data->enem_base.walk_right, EN_WALK, CLEAN);
+/* 	while (++frame < FR_IDLE)
 		mlx_destroy_image(data->mlx, data->anim.idle_left[frame]);
 	while (--frame >= 0)
 		mlx_destroy_image(data->mlx, data->anim.idle_right[frame]);
 	while (++frame < FR_WALK)
 		mlx_destroy_image(data->mlx, data->anim.walk_left[frame]);
 	while (--frame >= 0)
-		mlx_destroy_image(data->mlx, data->anim.walk_right[frame]);
+		mlx_destroy_image(data->mlx, data->anim.walk_right[frame]); */
 }

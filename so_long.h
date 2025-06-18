@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 19:53:10 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/17 20:03:06 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:42:37 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <sys/time.h>
-//# include "./minilibx-linux/mlx.h"
+# include "./minilibx-linux/mlx.h"
 
 # define TOTAL 1
 # define PARTIAL 0
@@ -51,7 +51,13 @@
 # define AN_DELAY 130000
 # define FR_IDLE 7
 # define FR_WALK 8
+# define EN_IDLE 4
+# define EN_WALK 8
+# define EN_ACT 4
 # define EN_DENSITY 10
+# define FORWARD 1
+# define REVERSE 0
+# define CLEAN 2
 
 typedef struct s_coordinates
 {
@@ -73,6 +79,7 @@ typedef struct s_map_data
 	int		height;
 	int		num_cols;
 	int		num_empty;
+	int		num_enem;
 	int		c_size;
 	int		moves;
 	char	**map;
@@ -85,13 +92,17 @@ typedef struct s_map_data
 }			t_map_data;
 typedef struct s_anim_imgs
 {
-	void	*idle_left[FR_IDLE + 1];
-	void	*idle_right[FR_IDLE + 1];
-	void	*walk_left[FR_WALK + 1];
-	void	*walk_right[FR_WALK + 1];
-	void	*death;
-	int		moves;
-	int		facing;
+	void		*idle_left[FR_IDLE + 1];
+	void		*idle_right[FR_IDLE + 1];
+	void		*walk_left[FR_WALK + 1];
+	void		*walk_right[FR_WALK + 1];
+	void		*act_left[EN_ACT + 1];
+	void		*act_right[EN_ACT + 1];
+	t_pos		pos;
+	__uint64_t	time;
+	int			moves;
+	int			facing;
+	int			idl_frame;
 }		t_anim;
 
 typedef struct s_mlx_data
@@ -104,7 +115,8 @@ typedef struct s_mlx_data
 	void		*door;
 	void		*player;
 	t_anim		anim;
-	t_anim		enem;
+	t_anim		enem_base;
+	t_anim		*enemies;
 	t_map_data	map;
 }		t_mlx_data;
 
@@ -133,9 +145,11 @@ void	asign_basic_colors(t_mlx_data *data);
 void	put_image_to_grid(t_mlx_data *data, void *img, int x, int y);
 void	*stretch_to_fit(t_mlx_data *data, void *src, int width, int start);
 void	*stretch_anim(t_mlx_data *data, void *src, int width, int start);
-void	clean_anim_stand(t_mlx_data *data);
+void	clean_anims(t_mlx_data *data);
 void	load_anim_src(t_mlx_data *data);
 void	create_frames(t_mlx_data *data);
-int		idle_player(t_mlx_data *data);
+int		idle_all(t_mlx_data *data);
+void	spawn_enemies(t_mlx_data *data, t_map_data *map);
+void	initialize_enemies(t_mlx_data *data);
 
 #endif

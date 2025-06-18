@@ -6,34 +6,38 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 17:15:49 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/17 20:04:31 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:58:42 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
 
-int	idle_player(t_mlx_data *data)
+int	idle_entity(t_mlx_data *data, t_anim *entity, int num_frames)
 {
-	static int				frame;
-	static struct timeval	time_old;
 	struct timeval			time_curr;
 
-	if (time_old.tv_usec == 0)
-		gettimeofday(&time_old, NULL);
 	gettimeofday(&time_curr, NULL);
-	if ((__uint64_t)time_curr.tv_usec - (__uint64_t)time_old.tv_usec > AN_DELAY)
+	if ((__uint64_t)time_curr.tv_usec - entity->time > AN_DELAY)
 	{
 		if (data->anim.facing == 1)
-			put_image_to_grid(data, data->anim.idle_right[frame],
-				data->map.player.x, data->map.player.y);
+			put_image_to_grid(data, entity->idle_right[entity->idl_frame],
+				entity->pos.x, entity->pos.y);
 		else
-			put_image_to_grid(data, data->anim.idle_left[frame],
-				data->map.player.x, data->map.player.y);
-		frame++;
-		if (frame >= FR_IDLE)
-			frame = 0;
-		time_old = time_curr;
+			put_image_to_grid(data, entity->idle_left[entity->idl_frame],
+				entity->pos.x, entity->pos.y);
+		(entity->idl_frame)++;
+		if (entity->idl_frame >= num_frames)
+			entity->idl_frame = 0;
+		entity->time = (__uint64_t)time_curr.tv_usec;
 	}
+	return (0);
+}
+
+int	idle_all(t_mlx_data *data)
+{
+	idle_entity(data, &(data->anim), FR_IDLE);
+	if (data->map.num_enem > 0)
+		idle_entity(data, &(data->enemies[0]), EN_IDLE);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 19:48:19 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/17 19:13:21 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:19:32 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	put_image_to_grid(t_mlx_data *data, void *img, int x, int y)
 	int		offset_top;
 
 	offset_left = data->map.offs.x + data->map.c_size * x;
-	offset_top = data->map.offs.y + (data->map.c_size - 1) * y;
+	offset_top = data->map.offs.y + (data->map.c_size) * y;
 	mlx_put_image_to_window(data->mlx, data->win, img, offset_left, offset_top);
 }
 
@@ -74,12 +74,14 @@ void	*stretch_to_fit(t_mlx_data *data, void *src, int width, int start)
 	int				i;
 	int				j;
 
-	i = 0;
+	if (src == NULL)
+		return (NULL);
 	factor = (double)data->map.c_size / (double)DF_CELL;
 	img = mlx_new_image(data->mlx, data->map.c_size, data->map.c_size);
 	pixels[0] = (unsigned int *)mlx_get_data_addr(img, &i, &i, &i);
 	pixels[1] = (unsigned int *)mlx_get_data_addr(src, &i, &i, &i);
-	while (i < data->map.c_size)
+	i = -1;
+	while (++i < data->map.c_size)
 	{
 		j = 0;
 		while (j < data->map.c_size)
@@ -88,7 +90,6 @@ void	*stretch_to_fit(t_mlx_data *data, void *src, int width, int start)
 						/ factor)) * width + (int)((double)j / factor) + start];
 			j++;
 		}
-		i++;
 	}
 	mlx_destroy_image(data->mlx, src);
 	return (img);
@@ -102,6 +103,8 @@ void	*stretch_anim(t_mlx_data *data, void *src, int width, int start)
 	int				i;
 	int				j;
 
+	if (src == NULL)
+		return (NULL);
 	i = 0;
 	factor = (double)data->map.c_size / (double)AN_HEIGHT;
 	img = mlx_new_image(data->mlx, data->map.c_size, data->map.c_size);

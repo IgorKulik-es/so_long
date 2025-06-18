@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 18:06:09 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/17 20:08:06 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/18 15:50:00 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	move_player_simple(int key, t_mlx_data *data)
 		if (data->map.map[new.y][new.x] == COLLECT)
 			(data->map.num_cols)--;
 		data->map.player = new;
+		data->anim.pos = new;
 		if (data->map.num_cols <= 0)
 			end_game(data);
 		data->map.map[new.y][new.x] = PLAYER;

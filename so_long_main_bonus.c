@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 19:21:35 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/17 19:41:55 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:41:10 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,11 @@ int	main(int argc, char **argv)
 	add_images(&data);
 	load_anim_src(&data);
 	create_frames(&data);
+	initialize_enemies(&data);
+	spawn_enemies(&data, &(data.map));
+	printf("Number of enemies: %d\n", data.map.num_enem);
 	create_grid(&(data));
 	mlx_hook(data.win, 2, 1L << 0, key_manager, &data);
-	mlx_loop_hook(data.mlx, idle_player, &data);
+	mlx_loop_hook(data.mlx, idle_all, &data);
 	mlx_loop(data.mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 11:12:05 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/16 19:24:14 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/18 16:15:25 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	close_window(t_mlx_data *data)
 	mlx_destroy_image(data->mlx, data->wall);
 	mlx_destroy_image(data->mlx, data->empty);
 	mlx_destroy_image(data->mlx, data->coll);
-	clean_anim_stand(data);
+	clean_anims(data);
+	if (data->enemies)
+		free(data->enemies);
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);
 	clean_exit(&(data->map), "OK", 0);
