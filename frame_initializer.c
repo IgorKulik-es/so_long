@@ -22,6 +22,8 @@ void	create_frames(t_mlx_data *data)
 	data->enemies = NULL;
 	data->anim.pos = data->map.player;
 	data->anim.time = 0;
+	data->anim.moving = 0;
+	data->anim.steps = 0;
 	set_frames(data, data->anim.idle_left, FR_IDLE, REVERSE);
 	set_frames(data, data->anim.idle_right, FR_IDLE, FORWARD);
 	set_frames(data, data->anim.walk_left, FR_WALK, REVERSE);

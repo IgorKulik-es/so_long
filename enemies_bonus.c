@@ -47,18 +47,19 @@ void	initialize_enemies(t_mlx_data *data)
 {
 	int	index;
 
-	index = 0;
+	index = -1;	
+	(data->enem_base).time = 0;
 	data->map.num_enem = data->map.num_empty / EN_DENSITY;
 	data->enemies = malloc(data->map.num_enem * sizeof(t_anim));
-	while (index < data->map.num_enem)
+	while (++index < data->map.num_enem)
 	{
 		data->enemies[index] = data->enem_base;
 		(data->enemies[index]).idl_frame = 0;
 		(data->enemies[index]).facing = 1;
-		(data->enemies[index]).moves = 0;
+		(data->enemies[index]).moving = 0;
+		(data->enemies[index]).steps = 0;
 		(data->enemies[index]).pos.x = 0;
 		(data->enemies[index]).pos.y = 0;
-		(data->enem_base).time = 0;
 		copy_links((data->enemies[index]).idle_left,
 			data->enem_base.idle_left, EN_IDLE);
 		copy_links((data->enemies[index]).idle_right,
@@ -67,7 +68,6 @@ void	initialize_enemies(t_mlx_data *data)
 			data->enem_base.walk_left, EN_WALK);
 		copy_links((data->enemies[index]).walk_right,
 			data->enem_base.walk_right, EN_WALK);
-		index++;
 	}
 }
 

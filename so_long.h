@@ -99,8 +99,10 @@ typedef struct s_anim_imgs
 	void		*act_left[EN_ACT + 1];
 	void		*act_right[EN_ACT + 1];
 	t_pos		pos;
+	t_pos		dest;
 	__uint64_t	time;
-	int			moves;
+	int			moving;
+	int			steps;
 	int			facing;
 	int			idl_frame;
 }		t_anim;

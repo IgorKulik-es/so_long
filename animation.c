@@ -20,7 +20,7 @@ int	idle_entity(t_mlx_data *data, t_anim *entity, int num_frames)
 	gettimeofday(&time_curr, NULL);
 	if ((__uint64_t)time_curr.tv_usec - entity->time > AN_DELAY)
 	{
-		if (data->anim.facing == 1)
+		if (entity->facing == 1)
 			put_image_to_grid(data, entity->idle_right[entity->idl_frame],
 				entity->pos.x, entity->pos.y);
 		else
@@ -36,8 +36,16 @@ int	idle_entity(t_mlx_data *data, t_anim *entity, int num_frames)
 
 int	idle_all(t_mlx_data *data)
 {
+	int	index;
+
+	index = 0;
 	idle_entity(data, &(data->anim), FR_IDLE);
-	if (data->map.num_enem > 0)
+	while (index < data->map.num_enem)
 		idle_entity(data, &(data->enemies[0]), EN_IDLE);
 	return (0);
+}
+
+void	move_entity(t_mlx_data *data, t_anim *entity, int num_fr)
+{
+	__uint64_t	step;
 }
