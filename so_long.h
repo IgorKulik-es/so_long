@@ -19,7 +19,7 @@
 # include <math.h>
 # include <sys/time.h>
 # include <time.h>
-# include <X11/keysym.h>
+//# include <X11/keysym.h>
 # include "./minilibx-linux/mlx.h"
 
 # define TOTAL 1
@@ -52,6 +52,8 @@
 # define AN_WALK_W 304
 # define AN_DELAY 130000
 # define AN_WALK 400000
+# define AN_DEATH 100000
+# define AN_ATTACK 230000
 # define FR_IDLE 7
 # define FR_WALK 8
 # define FR_ACT 12
@@ -121,6 +123,7 @@ typedef struct s_mlx_data
 	void		*coll;
 	void		*door;
 	void		*player;
+	int			game_over;
 	t_anim		anim;
 	t_anim		enem_base;
 	t_anim		*enemies;
@@ -160,6 +163,7 @@ void	spawn_enemies(t_mlx_data *data, t_map_data *map);
 void	initialize_enemies(t_mlx_data *data);
 int		key_manager_plus(int key, t_mlx_data *data);
 void	animate_act(t_mlx_data *data, t_anim *entity, int num_fr, size_t speed);
+t_anim	*find_enemy(t_mlx_data *data, t_pos find);
 
 
 

@@ -26,6 +26,7 @@ void	create_frames(t_mlx_data *data)
 	data->anim.moving = 0;
 	data->anim.step = 0;
 	data->anim.acting = 0;
+	data->game_over = 0;
 	data->anim.act_left[FR_ACT] = mlx_xpm_file_to_image(data->mlx,
 			"./img/Player_act_left.xpm", &dummy, &dummy);
 	set_frames(data, data->anim.idle_left, FR_IDLE, REVERSE);
@@ -96,9 +97,6 @@ void	load_anim_src(t_mlx_data *data)
 
 void	clean_anims(t_mlx_data *data)
 {
-	int	frame;
-
-	frame = -1;
 	set_frames(data, data->anim.idle_left, FR_IDLE, CLEAN);
 	set_frames(data, data->anim.idle_right, FR_IDLE, CLEAN);
 	set_frames(data, data->anim.walk_left, FR_WALK, CLEAN);

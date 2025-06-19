@@ -31,15 +31,13 @@ void	spawn_enemies(t_mlx_data *data, t_map_data *map)
 			pos.x = 0;
 			while ((++(pos.x) < (map->width - 1)) && (spawn >= 0))
 			{
-				if (map->map[pos.y][pos.x] == EMPTY && spawn != 0)
+				if (map->map[pos.y][pos.x] == EMPTY)
 					spawn--;
-				if (spawn == 0)
-				{
-					map->map[pos.y][pos.x] = ENEMY;
-					(map->num_empty)--;
-					data->enemies[count].pos = pos;
-					spawn--;
-				}
+				if (!(spawn <= 0 && map->map[pos.y][pos.x] == EMPTY))
+					continue ;
+				map->map[pos.y][pos.x] = ENEMY;
+				(map->num_empty)--;
+				data->enemies[count].pos = pos;
 			}
 		}
 	}
@@ -81,5 +79,19 @@ void	copy_links(void **dst, void **src, int count)
 		count--;
 		dst[count] = src[count];
 	}
+}
+
+t_anim	*find_enemy(t_mlx_data *data, t_pos find)
+{
+	int	index;
+
+	index = 0;
+	while (index < data->map.num_enem)
+	{
+		if ((data->enemies[index]).pos.x == find.x
+			&& (data->enemies[index]).pos.y == find.y)
+			return (&(data->enemies[index]));
+	}
+	return (NULL);
 }
 

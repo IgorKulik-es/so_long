@@ -21,7 +21,7 @@ int	idle_entity(t_mlx_data *data, t_anim *entity, int num_frames)
 
 	gettimeofday(&time_curr, NULL);
 	if (((__uint64_t)time_curr.tv_usec - entity->time > AN_DELAY)
-		&& (entity->moving == 0))
+		&& entity->moving == 0 && entity->acting == 0)
 	{
 		if (entity->facing == 1)
 			put_image_to_grid(data, entity->idle_right[entity->idl_frame],
@@ -49,8 +49,15 @@ int	idle_all(t_mlx_data *data)
 		index++;
 	}
 	move_entity(data, &(data->anim), FR_WALK);
-	if (data->map.num_enem > 0)
-		move_entity(data, &(data->enemies[0]), EN_WALK);
+	while (--index >= 0)
+		move_entity(data, &(data->enemies[index]), EN_WALK);
+	animate_act(data, &(data->anim), FR_ACT, AN_DEATH);
+	while (index < data->map.num_enem)
+	{
+		animate_act(data, &(data->enemies[index]), EN_ACT, AN_ATTACK);
+	}
+	if (data->game_over == 1 && data->anim.acting == 0)
+		close_window(data);
 	return (0);
 }
 
@@ -110,7 +117,7 @@ void	animate_act(t_mlx_data *data, t_anim *entity, int num_fr, size_t speed)
 {
 	struct timeval	time_c;
 
-	if (entity->acting == 0)
+	if (entity->acting == 0 || data->anim.moving == 1)
 		return ;
 	gettimeofday(&time_c, NULL);
 	if (entity->step == 0)

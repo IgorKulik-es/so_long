@@ -13,7 +13,7 @@
 #include "so_long.h"
 
 void	move_player_cool(int key, t_mlx_data *data);
-int		check_end_game(t_mlx_data *data);
+void	check_end_game(t_mlx_data *data, t_anim *entity, char mode);
 void	move_enemy(t_mlx_data *data, t_anim *anim);
 void	move_all_enemies(t_mlx_data *data);
 
@@ -21,10 +21,7 @@ int	key_manager_plus(int key, t_mlx_data *data)
 {
 	if ((key == UP || key == DOWN || key == LEFT || key == RIGHT)
 		&& data->anim.moving == 0)
-	{
-		print_map(data->map.map, data->map.height);
 		move_player_cool(key, data);
-	}
 	if (key == ESC || key == ESC_ASCII)
 		close_window(data);
 	return (0);
@@ -36,15 +33,15 @@ void	move_player_cool(int key, t_mlx_data *data)
 	t_pos	old;
 
 	old = data->map.player;
-	new = old;
-	new.y = new.y - (key == UP) + (key == DOWN);
-	new.x = new.x - (key == LEFT) + (key == RIGHT);
+	new.y = old.y - (key == UP) + (key == DOWN);
+	new.x = old.x - (key == LEFT) + (key == RIGHT);
 	if (new.x > old.x)
 		data->anim.facing = 1;
 	if (new.x < old.x)
 		data->anim.facing = 0;
-	if (data->map.map[new.y][new.x] != WALL && data->map.map[new.y][new.x]
-			!= ENEMY)
+	if (data->map.map[new.y][new.x] == ENEMY)
+		check_end_game(data, find_enemy(data, new), ENEMY);
+	else if (data->map.map[new.y][new.x] != WALL && data->game_over == 0)
 	{
 		(data->map.moves)++;
 		data->anim.moving = 1;
@@ -54,7 +51,7 @@ void	move_player_cool(int key, t_mlx_data *data)
 			(data->map.num_cols)--;
 		data->map.map[old.y][old.x] = EMPTY;
 		data->map.map[new.y][new.x] = PLAYER;
-		check_end_game(data);
+		check_end_game(data, NULL, COLLECT);
 		move_all_enemies(data);
 	}
 }
@@ -71,7 +68,6 @@ void	move_all_enemies(t_mlx_data *data)
 	}
 }
 
-
 void	move_enemy(t_mlx_data *data, t_anim *anim)
 {
 	t_pos	new;
@@ -87,10 +83,11 @@ void	move_enemy(t_mlx_data *data, t_anim *anim)
 	if (new.x < old.x)
 		anim->facing = 0;
 	move = data->map.map[new.y][new.x];
-	if (move != WALL && move != COLLECT && move != DOOR && move != ENEMY)
+	if (move == PLAYER)
+			check_end_game(data, anim, ENEMY);
+	else if (move == EMPTY && !(new.x
+				== data->map.door.x && new.y == data->map.door.y))
 	{
-		if (move == PLAYER)
-			kill_player();
 		anim->moving = 1;
 		anim->dest = new;
 		data->map.map[old.y][old.x] = EMPTY;
@@ -98,19 +95,29 @@ void	move_enemy(t_mlx_data *data, t_anim *anim)
 	}
 }
 
-int	check_end_game(t_mlx_data *data)
+void	check_end_game(t_mlx_data *data, t_anim *entity, char mode)
 {
 	t_pos	door;
 
-	if (data->map.num_cols > 0)
-		return (1);
-	door = data->map.door;
-	if (data->anim.dest.x == door.x && data->anim.dest.y == door.y)
-		close_window(data);
-	else if (data->map.map[door.y][door.x] != DOOR)
+	if (mode == COLLECT)
 	{
-		data->map.map[door.y][door.x] = DOOR;
-		put_image_to_grid(data, data->door, door.x, door.y);
+		if (data->map.num_cols > 0)
+			return ;
+		door = data->map.door;
+		if (data->anim.dest.x == door.x && data->anim.dest.y == door.y)
+			close_window(data);
+		else if (data->map.map[door.y][door.x] != DOOR)
+		{
+			data->map.map[door.y][door.x] = DOOR;
+			put_image_to_grid(data, data->door, door.x, door.y);
+		}
 	}
-	return (0);
+	if (mode == ENEMY && entity != NULL)
+	{
+	data->game_over = 1;
+	data->anim.acting = 1;
+	entity->acting = 1;
+	entity->moving = 0;
+	entity->step = 0;
+	}
 }
