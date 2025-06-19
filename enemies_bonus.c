@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 22:10:35 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/18 16:51:15 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/19 20:18:51 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,24 @@ void	spawn_enemies(t_mlx_data *data, t_map_data *map)
 	int		spawn;
 
 	count = map->num_enem;
-	srand(5);
+	srand(time(NULL));
 	while (--count >= 0)
 	{
-		spawn = rand() % map->num_empty;
+		spawn = rand() % (map->num_empty);
 		pos.y = 0;
-		while (++(pos.y) < map->height - 1 && spawn > 0)
+		while ((++(pos.y) < (map->height - 1)) && spawn >= 0)
 		{
 			pos.x = 0;
-			while (++(pos.x) < map->width - 1 && 0 <= spawn)
+			while ((++(pos.x) < (map->width - 1)) && (spawn >= 0))
 			{
-				if (map->map[pos.y][pos.x] == EMPTY && (spawn-- == 0))
+				if (map->map[pos.y][pos.x] == EMPTY && spawn != 0)
+					spawn--;
+				if (spawn == 0)
 				{
 					map->map[pos.y][pos.x] = ENEMY;
 					(map->num_empty)--;
-					data->enemies[count].pos.x = pos.x;
-					data->enemies[count].pos.y = pos.y;
+					data->enemies[count].pos = pos;
+					spawn--;
 				}
 			}
 		}
@@ -47,7 +49,7 @@ void	initialize_enemies(t_mlx_data *data)
 {
 	int	index;
 
-	index = -1;	
+	index = -1;
 	(data->enem_base).time = 0;
 	data->map.num_enem = data->map.num_empty / EN_DENSITY;
 	data->enemies = malloc(data->map.num_enem * sizeof(t_anim));
@@ -57,7 +59,8 @@ void	initialize_enemies(t_mlx_data *data)
 		(data->enemies[index]).idl_frame = 0;
 		(data->enemies[index]).facing = 1;
 		(data->enemies[index]).moving = 0;
-		(data->enemies[index]).steps = 0;
+		(data->enemies[index]).step = 0;
+		(data->enemies[index]).acting = 0;
 		(data->enemies[index]).pos.x = 0;
 		(data->enemies[index]).pos.y = 0;
 		copy_links((data->enemies[index]).idle_left,
@@ -73,7 +76,7 @@ void	initialize_enemies(t_mlx_data *data)
 
 void	copy_links(void **dst, void **src, int count)
 {
-	while (count >= 0)
+	while (count > 0)
 	{
 		count--;
 		dst[count] = src[count];

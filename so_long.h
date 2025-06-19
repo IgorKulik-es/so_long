@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 19:53:10 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/18 16:42:37 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/19 20:28:47 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <fcntl.h>
 # include <math.h>
 # include <sys/time.h>
+# include <time.h>
+# include <X11/keysym.h>
 # include "./minilibx-linux/mlx.h"
 
 # define TOTAL 1
@@ -49,10 +51,12 @@
 # define AN_IDLE_W 266
 # define AN_WALK_W 304
 # define AN_DELAY 130000
+# define AN_WALK 400000
 # define FR_IDLE 7
 # define FR_WALK 8
+# define FR_ACT 12
 # define EN_IDLE 4
-# define EN_WALK 8
+# define EN_WALK 7
 # define EN_ACT 4
 # define EN_DENSITY 10
 # define FORWARD 1
@@ -96,13 +100,14 @@ typedef struct s_anim_imgs
 	void		*idle_right[FR_IDLE + 1];
 	void		*walk_left[FR_WALK + 1];
 	void		*walk_right[FR_WALK + 1];
-	void		*act_left[EN_ACT + 1];
-	void		*act_right[EN_ACT + 1];
+	void		*act_left[FR_ACT + 1];
+	void		*act_right[FR_ACT + 1];
 	t_pos		pos;
 	t_pos		dest;
-	__uint64_t	time;
+	size_t		time;
 	int			moving;
-	int			steps;
+	int			acting;
+	int			step;
 	int			facing;
 	int			idl_frame;
 }		t_anim;
@@ -153,5 +158,11 @@ void	create_frames(t_mlx_data *data);
 int		idle_all(t_mlx_data *data);
 void	spawn_enemies(t_mlx_data *data, t_map_data *map);
 void	initialize_enemies(t_mlx_data *data);
+int		key_manager_plus(int key, t_mlx_data *data);
+void	animate_act(t_mlx_data *data, t_anim *entity, int num_fr, size_t speed);
+
+
+
+void	print_map(char **arr, int height);
 
 #endif

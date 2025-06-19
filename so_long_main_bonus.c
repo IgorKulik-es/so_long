@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 19:21:35 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/18 16:41:10 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/19 20:14:51 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	print_map(char **arr, int height)
 	while (index < height)
 	{
 		write(1, arr[index], ft_strlen(arr[index]));
-		write(1, "\n", 1);
 		index++;
 	}
+	write(1, "\n", 1);
 }
 
 int	main(int argc, char **argv)
@@ -40,9 +40,11 @@ int	main(int argc, char **argv)
 	create_frames(&data);
 	initialize_enemies(&data);
 	spawn_enemies(&data, &(data.map));
-	printf("Number of enemies: %d\n", data.map.num_enem);
+	printf("Number of enemies: %d\nOriginal map:\n", data.map.num_enem);
+	print_map(data.map.map, data.map.height);
 	create_grid(&(data));
-	mlx_hook(data.win, 2, 1L << 0, key_manager, &data);
+	put_image_to_grid(&data, data.anim.act_left[0], 1, 1);
+	mlx_hook(data.win, 2, 1L << 0, key_manager_plus, &data);
 	mlx_loop_hook(data.mlx, idle_all, &data);
 	mlx_loop(data.mlx);
 }
