@@ -6,11 +6,11 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 10:20:50 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/14 16:15:17 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/20 19:37:04 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 int	is_object(char c)
 {
@@ -52,7 +52,6 @@ void	check_map_basics(t_map_data *map)
 		while (++index_width < map->width)
 			if (is_object(map->map[index_height][index_width]) == 0)
 				clean_exit(map, "Wrong character(s)!", MAP_ERROR);
-
 	}
 }
 
@@ -96,10 +95,7 @@ void	register_collectables(t_map_data *map)
 		while (++(pos.x) < map->width)
 		{
 			if (map->map[pos.y][pos.x] == COLLECT)
-			{
-				lst_push_back(map, &(map->cols), NULL, &pos);
 				(map->num_cols)++;
-			}
 			if (map->map[pos.y][pos.x] == EMPTY)
 				map->num_empty++;
 		}
@@ -111,7 +107,6 @@ void	register_collectables(t_map_data *map)
 		clean_exit(map, "malloc failure", EXIT_FAILURE);
 	while (--(pos.y) >= 0)
 		map->map_copy[pos.y] = ft_strdup(map->map[pos.y], map);
-	map->map[map->door.y][map->door.x] = EMPTY;
 }
 
 int	search_route(t_map_data *map, int x, int y)

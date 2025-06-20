@@ -6,12 +6,12 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 15:54:01 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/08 15:54:01 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/20 18:37:12 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_BONUS_H
-# define GET_NEXT_LINE_BONUS_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>

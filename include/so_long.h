@@ -6,7 +6,7 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 19:53:10 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/19 20:28:47 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/20 19:44:19 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,8 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <math.h>
-# include <sys/time.h>
-# include <time.h>
-//# include <X11/keysym.h>
-# include "./minilibx-linux/mlx.h"
+# include <X11/keysym.h>
+# include "../minilibx-linux/mlx.h"
 
 # define TOTAL 1
 # define PARTIAL 0
@@ -35,25 +32,26 @@
 # define DOWN 's'
 # define LEFT 'a'
 # define RIGHT 'd'
-# define ESC 65307
-# define ESC_ASCII 33
-# define WIN_WIDTH 2560
-# define WIN_HEIGHT 1440
+# define ESC XK_Escape
+# define WIN_WIDTH 1920
+# define WIN_HEIGHT 1080
 # define DF_CELL 32
 # define TOP_OFF 100
 # define SIDE_OFF 100
-# define C_GOLD 16761104
-# define C_GREEN 8439808
-# define C_VIOLET 9055202
-# define C_CRIMSON 14423100
-# define C_GREY 3100495
+# define C_BACKGR 0x181a31
 # define AN_HEIGHT 38
 # define AN_IDLE_W 266
 # define AN_WALK_W 304
+# define NUM_WIDTH 63
+# define TXT_HEIGHT 114
+# define TXT_WIDTH 630
+# define TXT_MOVES 357
+# define GM_OVR_WIDTH 1080
+# define GM_OVR_HEIGHT 195
 # define AN_DELAY 130000
 # define AN_WALK 400000
-# define AN_DEATH 100000
-# define AN_ATTACK 230000
+# define AN_DEATH 130000
+# define AN_ATTACK 200000
 # define FR_IDLE 7
 # define FR_WALK 8
 # define FR_ACT 12
@@ -64,6 +62,7 @@
 # define FORWARD 1
 # define REVERSE 0
 # define CLEAN 2
+# define NUMBERS 3
 
 typedef struct s_coordinates
 {
@@ -119,10 +118,15 @@ typedef struct s_mlx_data
 	void		*mlx;
 	void		*win;
 	void		*wall;
+	void		*wall_d;
 	void		*empty;
 	void		*coll;
 	void		*door;
 	void		*player;
+	void		*txt_moves;
+	void		*txt_nums[11];
+	void		*txt_go;
+	void		*txt_win;
 	int			game_over;
 	t_anim		anim;
 	t_anim		enem_base;
@@ -140,7 +144,7 @@ void	clean_exit(t_map_data *map, char *error, int exit_code);
 char	*get_next_line(int fd);
 void	lst_clear(t_list **lst, int mode);
 int		key_manager(int key, t_mlx_data *data);
-void	close_window(t_mlx_data *data);
+int		close_window(t_mlx_data *data);
 void	array_clear(char **arr, int size);
 void	initialize_map(t_map_data *map);
 void	add_images(t_mlx_data *data);
@@ -148,25 +152,11 @@ int		read_map(t_map_data *map, int argc, char **argv);
 void	check_map_basics(t_map_data *map);
 void	check_map_advanced(t_map_data *map);
 void	register_collectables(t_map_data *map);
+void	create_background(t_mlx_data *data);
 int		search_route(t_map_data *map, int x, int y);
 void	validate_map(t_map_data *map, int argc, char **argv);
 void	create_grid(t_mlx_data *mlx);
-void	asign_basic_colors(t_mlx_data *data);
 void	put_image_to_grid(t_mlx_data *data, void *img, int x, int y);
 void	*stretch_to_fit(t_mlx_data *data, void *src, int width, int start);
-void	*stretch_anim(t_mlx_data *data, void *src, int width, int start);
-void	clean_anims(t_mlx_data *data);
-void	load_anim_src(t_mlx_data *data);
-void	create_frames(t_mlx_data *data);
-int		idle_all(t_mlx_data *data);
-void	spawn_enemies(t_mlx_data *data, t_map_data *map);
-void	initialize_enemies(t_mlx_data *data);
-int		key_manager_plus(int key, t_mlx_data *data);
-void	animate_act(t_mlx_data *data, t_anim *entity, int num_fr, size_t speed);
-t_anim	*find_enemy(t_mlx_data *data, t_pos find);
-
-
-
-void	print_map(char **arr, int height);
 
 #endif

@@ -6,11 +6,11 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/14 16:30:30 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/14 16:35:25 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/20 19:38:03 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	ft_putchar_fd(char c, int fd)
 {

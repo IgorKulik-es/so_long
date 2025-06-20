@@ -6,12 +6,12 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 15:55:49 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/08 15:55:49 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/20 19:37:47 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include "so_long.h"
+#include "../include/get_next_line.h"
+#include "../include/so_long.h"
 
 void	*ft_lstadd_front(t_list_g **lst)
 {

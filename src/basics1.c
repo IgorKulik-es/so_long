@@ -6,11 +6,11 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 20:09:10 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/14 16:32:50 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/20 19:39:08 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 int	ft_strlen(const char *s)
 {

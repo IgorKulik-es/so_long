@@ -1,23 +1,24 @@
 NAME = so_long
 BONUSNAME = so_long_bonus
-#TNAME = test
 LIBRARY = minilibx-linux/libmlx_Linux.a
-BLIBRARY = lib_so_long_bonus.a
+LIBGIT = https://github.com/42paris/minilibx-linux.git
 
-SRCS = so_long_main.c gaming.c map_checks.c get_next_line.c get_next_line_utils.c\
+SRC = so_long_main.c gaming.c map_checks.c get_next_line.c get_next_line_utils.c\
 cleaners.c basics1.c basics2.c initializer.c renderers.c
-BONUSSRCS = so_long_main_bonus.c gaming.c map_checks.c get_next_line.c get_next_line_utils.c\
+BONUSSRC = so_long_main_bonus.c gaming.c map_checks.c get_next_line.c get_next_line_utils.c\
 cleaners_bonus.c basics1.c basics2.c initializer.c renderers.c frame_initializer.c\
-animation.c enemies_bonus.c gaming_bonus.c
+animation.c animation2.c enemies_bonus.c gaming_bonus.c renderers_bonus.c
 
+SRCSDIR = src
+OBJDIR = obj
 
-HEADER = so_long.h ./minilibx-linux/mlx.h
-BONUSHEADER = so_long_bonus.h
+SRCS = $(addprefix $(SRCSDIR)/, $(SRC))
+BONUSSRCS = $(addprefix $(OBJDIR)/, $(BONUSSRC))
 
-OBJS = $(SRCS:.c=.o)
-BONUSOBJS = $(BONUSSRCS:.c=.o)
+OBJS = $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
+BONUSOBJS = $(addprefix $(OBJDIR)/,  $(notdir $(BONUSSRCS:.c=.o)))
 
-CFLAGS = -Wall -Wextra -Werror -g #-I/usr/include -I./minilibx-linux
+CFLAGS = -Wall -Wextra -Werror -g -I/usr/include -I./minilibx-linux
 MFLAGS = -L./minilibx-linux -L/usr/lib -I./minilibx-linux -lXext -lX11 -lm -lz
 
 RM = rm -f
@@ -25,13 +26,17 @@ RM = rm -f
 all: $(NAME)
 bonus: $(BONUSNAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(LIBRARY) $(OBJS)
 	cc $(OBJS) $(LIBRARY) $(MFLAGS) -o $(NAME)
 
-$(BONUSNAME): $(BONUSOBJS)
+$(BONUSNAME): $(BONUSOBJS) $(LIBRARY)
 	cc $(BONUSOBJS) $(LIBRARY) $(MFLAGS) -o $(BONUSNAME)
 
-%.o: %.c
+$(LIBRARY):
+	git clone $(LIBGIT) minilibx-linux
+	cd minilibx-linux && ./configure
+
+$(OBJDIR)/%.o: $(SRCSDIR)/%.c
 	cc $(CFLAGS) -c $< -o $@
 
 clean:

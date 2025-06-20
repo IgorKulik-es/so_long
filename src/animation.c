@@ -6,11 +6,11 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 17:15:49 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/19 20:28:21 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/20 19:35:52 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long_bonus.h"
 
 void	put_image_midway(t_mlx_data *data, t_anim *anim, int num_fr);
 void	move_entity(t_mlx_data *data, t_anim *entity, int num_fr);
@@ -41,41 +41,37 @@ int	idle_all(t_mlx_data *data)
 {
 	int	index;
 
-	index = 0;
-	idle_entity(data, &(data->anim), FR_IDLE);
-	while (index < data->map.num_enem)
-	{
+	index = -1;
+	if (data->game_over == 0)
+		idle_entity(data, &(data->anim), FR_IDLE);
+	while (++index < data->map.num_enem)
 		idle_entity(data, &(data->enemies[index]), EN_IDLE);
-		index++;
-	}
 	move_entity(data, &(data->anim), FR_WALK);
 	while (--index >= 0)
 		move_entity(data, &(data->enemies[index]), EN_WALK);
 	animate_act(data, &(data->anim), FR_ACT, AN_DEATH);
-	while (index < data->map.num_enem)
-	{
+	while (++index < data->map.num_enem)
 		animate_act(data, &(data->enemies[index]), EN_ACT, AN_ATTACK);
-	}
 	if (data->game_over == 1 && data->anim.acting == 0)
-		close_window(data);
+		mlx_put_image_to_window(data->mlx, data->win, data->txt_go, WIN_WIDTH
+			/ 2 - GM_OVR_WIDTH / 2, WIN_HEIGHT / 2 - GM_OVR_HEIGHT / 2);
+	if (data->game_over == 2 && data->anim.moving == 0)
+		mlx_put_image_to_window(data->mlx, data->win, data->txt_win, WIN_WIDTH
+			/ 2 - GM_OVR_WIDTH / 2, WIN_HEIGHT / 2 - GM_OVR_HEIGHT / 2);
 	return (0);
 }
 
 void	move_entity(t_mlx_data *data, t_anim *entity, int num_fr)
 {
 	struct timeval	time_c;
-	size_t			interval;
 
 	if (entity->moving == 0)
 		return ;
 	gettimeofday(&time_c, NULL);
-	interval = 0;
-	if (num_fr != 0)
-		interval = ((size_t)AN_WALK / (size_t)num_fr) * (size_t)entity->step;
 	if (entity->step == 0)
 		entity->time = (size_t)time_c.tv_sec * 1000000 + (size_t)time_c.tv_usec;
-	if ((size_t)time_c.tv_sec * (size_t)1000000 + (size_t)time_c.tv_usec
-		- entity->time >= interval)
+	if ((size_t)time_c.tv_sec * 1000000 + (size_t)time_c.tv_usec - entity->time
+		>= ((size_t)AN_WALK / (size_t)num_fr) * (size_t)entity->step)
 	{
 		put_image_midway(data, entity, num_fr);
 		(entity->step)++;
@@ -87,6 +83,9 @@ void	move_entity(t_mlx_data *data, t_anim *entity, int num_fr)
 		entity->idl_frame = 0;
 		put_image_to_grid(data, data->empty, entity->pos.x, entity->pos.y);
 		entity->pos = entity->dest;
+		if (data->game_over == 2)
+			put_image_to_grid(data, data->door, data->map.door.x,
+				data->map.door.y);
 	}
 }
 

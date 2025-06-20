@@ -6,11 +6,11 @@
 /*   By: ikulik <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 20:04:12 by ikulik            #+#    #+#             */
-/*   Updated: 2025/06/18 15:01:52 by ikulik           ###   ########.fr       */
+/*   Updated: 2025/06/20 19:44:43 by ikulik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	initialize_map(t_map_data *map)
 {
@@ -97,6 +97,8 @@ void	add_images(t_mlx_data *data)
 	data->player = stretch_to_fit(data, img, DF_CELL, 0);
 	img = mlx_xpm_file_to_image(data->mlx, "./img/Wall.xpm", &dummy, &dummy);
 	data->wall = stretch_to_fit(data, img, DF_CELL, 0);
+	img = mlx_xpm_file_to_image(data->mlx, "./img/Wall_d.xpm", &dummy, &dummy);
+	data->wall_d = stretch_to_fit(data, img, DF_CELL, 0);
 	img = mlx_xpm_file_to_image(data->mlx, "./img/Empty.xpm", &dummy, &dummy);
 	data->empty = stretch_to_fit(data, img, DF_CELL, 0);
 	img = mlx_xpm_file_to_image(data->mlx, "./img/Coll.xpm", &dummy, &dummy);
